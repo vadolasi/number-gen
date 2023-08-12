@@ -19,5 +19,8 @@ export default defineConfig({
         debugProtection: true
       }
     })
-  ]
+  ],
+  worker: {
+    plugins: [comlink()]
+  }
 })
