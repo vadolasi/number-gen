@@ -1,13 +1,13 @@
 import { useEffect, useState } from "preact/hooks"
-import { workerInstance } from "../utils"
 import Zip from "jszip"
+import { workerInstance } from "../utils"
 
 export default function() {
   const [file, setFile] = useState<File | undefined>(undefined)
   const [text, setText] = useState<string>("")
 
   const download = async () => {
-    const providers = await workerInstance.splitEmails(text)
+    const providers = await workerInstance.separateEmailsByEmailProvider(text)
 
     const zip = new Zip()
 

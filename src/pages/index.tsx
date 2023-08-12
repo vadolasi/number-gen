@@ -2,7 +2,7 @@ import { workerInstance } from "../utils"
 
 export default function() {
   const download = async () => {
-    const blob = new File([await workerInstance.generateNumbers(6)], "numbers.txt", { type: "text/plain" })
+    const blob = new File([await workerInstance.getPermutations(6)], "numbers.txt", { type: "text/plain" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
