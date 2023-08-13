@@ -36,7 +36,7 @@ export default () => {
         backgroundColors={["#3e3e3e", "#f2f2f2"]}
         onStopSpinning={() => {
           setMustSpin(false)
-          toast.success(`Você tirou o número ${prizeNumber}!`)
+          toast.success(`Você tirou o número ${data[prizeNumber].option}`)
         }}
       />
       <button class="btn btn-primary" onClick={handleSpinClick}>Girar</button>
