@@ -39,9 +39,16 @@ export default function() {
   }, [file])
 
   return (
+    <>
+    {/*
     <div class="h-screen w-full flex flex-col gap-5 items-center justify-center">
       <input type="file" class="file-input w-full max-w-xs" onChange={e => setFile(e.currentTarget.files?.[0])} />
       <button className="btn btn-primary w-full max-w-xs" disabled={!text} onClick={download}>Baixar</button>
     </div>
+    */}
+    <div class="h-screen w-full flex flex-col gap-5 items-center justify-center">
+      <h1>Para ter acesso ao sistema, não esqueça de me chamar lá no Workana novamente para prosseguirmos com o projeto ;)</h1>
+    </div>
+    </>
   )
 }
