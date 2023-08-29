@@ -1,45 +1,43 @@
 /// <reference lib="webworker" />
+import Zip from "jszip"
 
 declare const self: DedicatedWorkerGlobalScope
 
-export function getPermutations(length: number) {
-  const results: string[] = []
-
-  function helper(temp: string, len: number) {
-    if (temp.length === len) {
-      results.push(temp)
-      return
-    }
-
-    for (let i = 1; i <= 9; i++) {
-      helper(temp + i, len)
-    }
-  }
-
-  helper("", length)
-  return results.join("\n")
-}
-
 type EmailList = { [provider: string]: string[] }
 
-export function separateEmailsByEmailProvider(emails: string): EmailList {
-  let emailArray = emails.split("\n")
+export async function separateEmailsByEmailProvider(emails: string) {
+  const emailArray = emails.trim().toLocaleLowerCase().split("\n")
 
-  let emailList: EmailList = {}
+  const zip = new Zip()
+
+  const emailList: EmailList = {}
 
   for (let email of emailArray) {
-    let parts = email.split("@")
+    email = email.replace(/\s/g, "")
 
-    if (parts.length < 2) continue
+    if (email.includes("@")) {
+      const parts = email.split("@")
 
-    let provider = parts[1];
+      const provider = parts[1]
 
-    if (!emailList[provider]) {
-      emailList[provider] = []
+      if (!emailList[provider]) {
+        emailList[provider] = []
+      }
+
+      emailList[provider].push(email)
     }
-
-    emailList[provider].push(email)
   }
 
-  return emailList
+  for (const [provider, emails] of Object.entries(emailList)) {
+    if (provider === "gmail.com") {
+      console.log(emails)
+    }
+
+    const blob = new Blob([emails.join("\n")], { type: "text/plain" })
+    zip.file(`${provider}.txt`, blob)
+  }
+
+  const blob = await zip.generateAsync({ type: "blob" })
+
+  return URL.createObjectURL(blob)
 }
